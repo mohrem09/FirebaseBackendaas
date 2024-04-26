@@ -1,0 +1,133 @@
+<html>
+<head>
+<title>Etapes D'iscriptions</title>
+<link rel="stylesheet" href="aftersigngnUp.css">
+<link rel="icon" type="image/x-icon" href="ert.png">
+
+</head>
+
+<body>
+  
+  <div id="login-box">
+    <div class="left">
+      <h1 id='status'>RemDr</h1>
+      <p>peu d'etapes restants avant la creation de votre compte:</p>
+      <ul>
+        <li><p id="demo">Confirmer votre Email.</p></li>
+        <li><p id="demo2">Envoyer votre diplome .pdf</p></li><br>
+        <li>votre compte sera creer apres le traitement de votre demande</li>
+      </ul>
+    </div>
+    
+    <div class="right">
+      <span class="loginwith">Sign in with<br/>social network</span>
+      
+      <button id="myBtn" class="social-signin facebook">Confirmer Votre Email!</button>
+
+     
+      <br><button id="bnttwo" class="social-signin twitter">Envoyer Diplome.pdf</button>
+    
+
+      
+      
+  
+    
+    
+    </div>
+  
+  </div>
+</body>
+
+
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+  import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut , sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCeRIqF9eCme82fMT1ji--Z6QFfxClkHls",
+  authDomain: "remdr-pro.firebaseapp.com",
+  databaseURL: "https://remdr-pro-default-rtdb.firebaseio.com",
+  projectId: "remdr-pro",
+  storageBucket: "remdr-pro.appspot.com",
+  messagingSenderId: "744470897803",
+  appId: "1:744470897803:web:9ffa049514d894699ca08e",  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const auth = getAuth();
+  const element = document.getElementById("myBtn");
+  const element2 = document.getElementById("demo");
+  const element3 = document.getElementById("bnttwo");
+ 
+
+
+
+  element.addEventListener("click", send_verification);
+  element3.addEventListener("click", diplome);
+
+
+  function diplome(){
+    window.location.href = "uploadDiplom.html";
+
+
+  }
+  
+  function send_verification(){
+    sendEmailVerification(auth.currentUser)
+    .then(() => {
+          alert("check your email");
+
+          document.getElementById("demo").innerHTML = "suiver le lien dans votre Mail!";
+     })
+      .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+          alert(errorMessage);
+    // ..
+    });
+
+
+}
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+
+    const uid = user.uid;
+    var email_id = user.email;
+    var email_verified = user.emailVerified;
+    if(email_verified){
+      document.getElementById("demo").innerHTML = "Votre email est verifie";
+      document.getElementById("myBtn").style.display = "none";
+      element2.setAttribute("style", "color:green");
+    }
+      
+
+
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,170 @@
+<html>
+<head>
+<title>Etapes D'iscriptions</title>
+<link rel="stylesheet" href="afterSigngnUp.css">
+<link rel="icon" type="image/x-icon" href="ert.png">
+
+</head>
+
+<body>
+  
+  <div id="login-box">
+    <div class="left">
+      <h1 id='status'>RemDr</h1>
+      <p>peu d'etapes restants avant la creation de votre compte:</p>
+      <ul>
+        <li><p id="demo">Confirmer votre Email.</p></li>
+        <li><p id="demo2">Envoyer votre diplome .pdf</p></li>
+        <li><p id="demo3">votre compte sera creer apres le traitement de votre demande</p></li>
+        <br><button id="bnttwo" class="social-signin twitter">Commencons!</button>
+
+      </ul>
+    </div>
+    
+    <div class="right">
+     
+      
+      <button id="myBtn" class="social-signin facebook">Confirmer Votre Email!</button>
+
+      <br><img src="ert.png" alt="logo" width="200" height="200">
+    
+
+      
+      
+  
+    
+    
+    </div>
+  
+  </div>
+</body>
+
+
+
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+  import { getDatabase, set, ref, update, onValue } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut , sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCeRIqF9eCme82fMT1ji--Z6QFfxClkHls",
+  authDomain: "remdr-pro.firebaseapp.com",
+  databaseURL: "https://remdr-pro-default-rtdb.firebaseio.com",
+  projectId: "remdr-pro",
+  storageBucket: "remdr-pro.appspot.com",
+  messagingSenderId: "744470897803",
+  appId: "1:744470897803:web:9ffa049514d894699ca08e",  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const auth = getAuth();
+
+
+  document.getElementById("bnttwo").style.display = "none";
+
+  document.getElementById("myBtn").style.display = "none";
+
+
+  const element = document.getElementById("myBtn");
+  const element2 = document.getElementById("demo");
+  const element3 = document.getElementById("demo2");
+  const element4 = document.getElementById("demo3");
+
+
+
+
+
+
+  element.addEventListener("click", send_verification);
+//cacher diplom btn et modifier la demande 
+document.getElementById("demo2").innerHTML = "Diplome recue";
+element3.setAttribute("style", "color:green");
+
+
+
+  
+  function send_verification(){
+    sendEmailVerification(auth.currentUser)
+    .then(() => {
+          alert("check your email");
+
+          document.getElementById("demo").innerHTML = "suiver le lien dans votre Mail!";
+     })
+      .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+          alert(errorMessage);
+    // ..
+    });
+
+
+}
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+
+    var uid = user.uid;
+    var email_id = user.email;
+    var email_verified = user.emailVerified;
+    if(email_verified){
+      document.getElementById("demo").innerHTML = "Votre email est verifie";
+      element2.setAttribute("style", "color:green");
+    }else{
+      document.getElementById("myBtn").style.display = "block";
+
+    }
+    const starCountRef = ref(database, 'doctors/' + uid);
+      onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val(); // data = all data on firebse
+      
+      if(data.test){
+        document.getElementById("demo3").innerHTML = "Votre demande est acceptee";
+        element4.setAttribute("style", "color:green");
+
+      }else{
+        //data.test==false
+      }
+      if((email_verified)&&(data.test)){
+        document.getElementById("bnttwo").style.display = "block";
+ 
+      }
+      
+
+
+
+      console.log(uid);
+    });
+
+
+
+
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
+
+
+
+
+bnttwo.addEventListener('click',(e)=>{
+  window.location.href = "welcomepage.html";
+ 
+});
+
+</script>
+
+
+
+
+
+
+
+</html>
