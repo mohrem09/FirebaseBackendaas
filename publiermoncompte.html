@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>Publier mon compte</title>
+<link rel="stylesheet" href="publiermoncompte.css">
+<link rel="icon" type="image/x-icon" href="ert.png">
+
+</head>
+
+<body>
+  <style>
+     body {
+    background-image: url('background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover ;
+
+  }
+  </style>
+  
+<div id="login-box">
+  <div class="left">
+    <h1 id='status'>Publier Mon compte</h1>
+    <h2>Hi Doc! <br> </h2>
+    <p>vous devez remplir ces informations correctement car elles seront publi&eacute;es sur l interface patient</p>
+   
+    <input type="text" id="username" name="username" placeholder="Nom et Prenom" />
+      <input type="text" id="age" name="age" placeholder="Age" />
+      
+      <input type="text" id="num" name="num" placeholder="Numero"  />
+      <button id="confirmButton" class="social-signin google" >confirmer</button><br>
+
+      <button id="suivant" class="social-signin google" onclick="goToNext()">suivant</button><br>
+      <script>
+      function goToNext(){
+        window.location.href="addDaysForuser.html"
+      }
+      </script>
+  </div>
+  
+  <div class="right">
+    <br> 
+    <br>
+    
+    <img src="ert.png" alt="logo" width="200" height="200">
+
+  </div>
+  
+</div>
+</body>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+  import { getDatabase, set, ref, update,  onValue } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut , sendSignInLinkToEmail} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+
+  const firebaseConfig  = {
+   
+};
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const auth = getAuth();
+
+  document.getElementById("suivant").style.display = "none";
+ 
+
+
+  confirmButton.addEventListener('click',(e) => {
+   
+
+
+
+
+//var email = document.getElementById('email').value;
+var username = document.getElementById('username').value;
+var age = document.getElementById('age').value;
+var num = document.getElementById('num').value;
+//const test = false;
+
+
+   // Signed in 
+  
+   set(ref(database, 'doctors/'),{
+     username: username,
+   //  email: email,
+     num: num,
+     age: age,
+     //test: test
+   })
+   alert('ok i did');
+   
+   document.getElementById("suivant").style.display = "block";
+   document.getElementById("confirmButton").style.display = "none";
+    // ...
+    
+  
+
+
+});
+
+
+
+
+
+</script>
+
+</html>

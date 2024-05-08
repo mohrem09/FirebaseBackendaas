@@ -1,0 +1,149 @@
+<html>
+
+<head>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RemDR-Pro Creer Calendrier</title>
+    <link rel="stylesheet" href="Calendrier.css">
+    <link rel="icon" type="image/x-icon" href="ert.png">
+
+</head>
+<body>
+    
+   
+  <div id="login-box">
+    <div class="left">
+      <h1 id='status'>RemDr-Pro</h1>
+      <p>Informer le patient sur les jours de travail</p>
+      <ul>
+        <li><p id="demo">Selectionner les jours de travail par semaine</p>
+          <ul>
+            <li> <p id="demo1">samedi</p> <label class="switch"><input type="checkbox" id="sam" value="false" onclick="samedi()"> <span class="slider round"></span></label> </li>
+           <br>
+            <li><p id="demo2">dimanche</p> <label class="switch"><input type="checkbox" id="dim" value="false" onclick="dimanche()"> <span class="slider round"></span></label></li>
+            <br>
+            <li><p id="demo3">Lundi</p><label class="switch"><input type="checkbox" id="lun" value="false" onclick="lundi()" > <span class="slider round"></span></label></li>
+            <br>
+            <li><p id="demo4">mardi</p><label class="switch"><input type="checkbox" id="mar" value="false" onclick="mardi()" > <span class="slider round"></span></label></li>
+            <br>
+            <li><p id="demo5">mercredi</p><label class="switch"><input type="checkbox" id="mer" value="false" onclick="mercredi()" > <span class="slider round"></span></label></li>
+            <br>
+            
+            
+            <li><p id="demo6">jeudi</p><label class="switch"><input type="checkbox" id="jeu" value="false" onclick="jeudi()"> <span class="slider round"></span></label></li>
+            <br>
+            
+            
+            <li><p id="demo7">vendredi</p><label class="switch"><input type="checkbox" id="ven" value="false" onclick="vandredi()"> <span class="slider round"></span></label></li>
+            <br>
+            
+            
+
+          </ul>
+       </li>
+      </ul>
+
+     
+    </div>
+    
+    <div class="right">
+    <!-- <span class="loginwith">Sign in with<br/>social network</span> --> 
+      
+      <br><img src="Calendar.png" alt="logo" width="200" height="200"  style="border-radius: 50%;" ><br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <button id="savedays" class="social-signin google" >Enregistrer</button><br>
+      <button id="continue" class="social-signin google" >Continue</button><br>
+
+      
+      <script src="Calendar.js" type="text/javascript"></script>
+    
+    
+    </div>
+  
+  </div>
+
+
+
+</body>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+  import { getDatabase, set, ref, update,  onValue } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut , sendSignInLinkToEmail} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  
+  const firebaseConfig  = {
+    
+};
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const auth = getAuth();
+ 
+  document.getElementById("continue").style.display = "none";
+  const ele = document.getElementById("continue");
+  ele.addEventListener('click',(e)=>{
+  window.location.href = "addHourstoUser.html";
+ 
+});
+
+
+  savedays.addEventListener('click',(e) => {
+ 
+     
+      var sam = document.getElementById('sam').value;
+      var dim = document.getElementById('dim').value;
+      var lun = document.getElementById('lun').value;
+      var mar = document.getElementById('mar').value;
+      var mer = document.getElementById('mer').value;
+      var jeu = document.getElementById('jeu').value;
+      var ven = document.getElementById('ven').value;
+    
+    
+    
+    
+      set(ref(database, 'doctors/jours'), {
+    
+       sam: sam,
+       dim: dim,
+       lun: lun,
+       mar: mar,
+       mer: mer,
+       jeu: jeu,
+       ven: ven
+    
+         });
+         alert("done");
+         document.getElementById("continue").style.display = "block";
+         document.getElementById("savedays").style.display = "none";
+
+    
+    
+    
+
+  });
+
+
+
+
+
+
+
+  </script>
+
+
+
+</html>
