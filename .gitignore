@@ -1,0 +1,5 @@
+node_modules/
+*.log
+
+# Ignorer les fichiers de configuration spécifiques à l'environnement
+.env
