@@ -1,48 +1,49 @@
 <html>
+
 <head>
-<title>Firebase Authentication</title>
-<link rel="stylesheet" href="cssFile.css">
-<link rel="icon" type="image/x-icon" href="ert.png">
+  <title>Firebase Authentication</title>
+  <link rel="stylesheet" href="cssFile.css">
+  <link rel="icon" type="image/x-icon" href="ert.png">
 
 </head>
 
 <body>
   <style>
-     body {
-    background-image: url('background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover ;
+    body {
+      background-image: url('background.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
 
-  }
+    }
   </style>
-  
-<div id="login-box">
-  <div class="left">
-    <h1 id='status'>Creer compte</h1>
-    <input type="text" id="username" name="username" placeholder="Nom et Prenom" />
-    <input type="text" id="age" name="age" placeholder="Age" />
-    <input type="text" id="email" name="email" placeholder="E-mail" />
-    <input type="text" id="num" name="num" placeholder="Numero" />
-    <input type="password" id="password" name="password" placeholder="Password" />
-    <input type="submit" id='sighUp' name="sighUp" value="Creer" />
-    <input type="submit" id='next' name="next" value="Suivant" />
-  </div>
-  
-  <div class="right">
-    <span class="loginwith">Sign in with<br />social network</span>
-    
-    <img src="ert.png" alt="logo" width="200" height="200">
+
+  <div id="login-box">
+    <div class="left">
+      <h1 id='status'>Creer compte</h1>
+      <input type="text" id="username" name="username" placeholder="Nom et Prenom" required="required" />
+      <input type="text" id="age" name="age" placeholder="Age" />
+      <input type="text" id="email" name="email" placeholder="E-mail" />
+      <input type="text" id="num" name="num" placeholder="Numero" />
+      <input type="password" id="password" name="password" placeholder="Password" />
+      <input type="submit" id='sighUp' name="sighUp" value="Creer" />
+      <input type="submit" id='next' name="next" value="Suivant" />
+    </div>
+
+    <div class="right">
+      <span class="loginwith">Sign in with<br />social network</span>
+
+      <img src="ert.png" alt="logo" width="200" height="200">
+
+    </div>
 
   </div>
-  
-</div>
 </body>
 
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
   import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut , sendSignInLinkToEmail} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendSignInLinkToEmail } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
   document.getElementById("next").style.display = "none";
 
   // TODO: Add SDKs for Firebase products that you want to use
@@ -51,12 +52,13 @@
   // Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyCeRIqF9eCme82fMT1ji--Z6QFfxClkHls",
-  authDomain: "remdr-pro.firebaseapp.com",
-  databaseURL: "https://remdr-pro-default-rtdb.firebaseio.com",
-  projectId: "remdr-pro",
-  storageBucket: "remdr-pro.appspot.com",
-  messagingSenderId: "744470897803",
-  appId: "1:744470897803:web:9ffa049514d894699ca08e",  };
+    authDomain: "remdr-pro.firebaseapp.com",
+    databaseURL: "https://remdr-pro-default-rtdb.firebaseio.com",
+    projectId: "remdr-pro",
+    storageBucket: "remdr-pro.appspot.com",
+    messagingSenderId: "744470897803",
+    appId: "1:744470897803:web:9ffa049514d894699ca08e",
+  };
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -66,52 +68,55 @@
 
 
 
-sighUp.addEventListener('click',(e) => {
+  sighUp.addEventListener('click', (e) => {
 
-  var email = document.getElementById('email').value;
-  var password = document.getElementById('password').value;
-  var username = document.getElementById('username').value;
-  var age = document.getElementById('age').value;
-  var num = document.getElementById('num').value;
-  const test = false;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    var username = document.getElementById('username').value;
+    var age = document.getElementById('age').value;
+    var num = document.getElementById('num').value;
+    const test = false;
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-     // Signed in 
-      const user = userCredential.user;
-     set(ref(database, 'doctors/'+ user.uid),{
-       username: username,
-       email: email,
-       num: num,
-       age: age,
-       test: test
-     })
-     alert('user created')
-     document.getElementById("next").style.display = "block";
-     document.getElementById("sighUp").style.display = "none";
+    if (num === "" || username === "" || age === "") {
+      alert("All fields are required");
+    } else {
 
-      // ...
-      
-    })
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
 
+          const user = userCredential.user;
+          set(ref(database, 'doctors/' + user.uid), {
+            username: username,
+            email: email,
+            num: num,
+            age: age,
+            test: test
+          })
+          alert('user created')
+          document.getElementById("next").style.display = "block";
+          document.getElementById("sighUp").style.display = "none";
 
-
-
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      alert(errorMessage);
-    // ..
-    });
+        })
 
 
-});
 
-next.addEventListener('click',(e)=>{
-  window.location.href = "afterSignUp.html";
- 
-});
+
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+
+          alert(errorMessage);
+          // ..
+        });
+
+    }
+  });
+
+  next.addEventListener('click', (e) => {
+    window.location.href = "afterSignUp.html";
+
+  });
 
 
 
